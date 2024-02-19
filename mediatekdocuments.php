@@ -4,11 +4,11 @@ include_once("Controle.php");
 $controle = new Controle();
 
 // Contrôle de l'authentification
-if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) && 
-        !(($_SERVER['PHP_AUTH_USER']=='admin' && ($_SERVER['PHP_AUTH_PW']=='adminpwd'))))){
-    $controle->unauthorized();
+//if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) &&
+        //!(($_SERVER['PHP_AUTH_USER']=='admin' && ($_SERVER['PHP_AUTH_PW']=='adminpwd'))))){
+    //$controle->unauthorized();
     
-}else{
+//}else{
     
     // récupération des données
     // Nom de la table au format string
@@ -35,4 +35,4 @@ if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) &&
         $controle->delete($table, $champs);
     }
 
-}
+//}
