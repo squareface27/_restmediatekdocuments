@@ -6,11 +6,11 @@ include_once("ConnexionPDO.php");
  */
 class AccessBDD {
 	
-    public $login="Marjorie1";
+    public $login="marjorie1";
     public $mdp="mediatekdocuments";
     public $bd="mediatekdocuments";
     public $serveur="localhost";
-    public $port="3306";	
+    public $port="3306";
     public $conn = null;
 
     /**
@@ -49,7 +49,7 @@ class AccessBDD {
                 default:
                     // select portant sur une table, sans condition
                     return $this->selectTable($table);
-            }			
+            }
         }else{
             return null;
         }
@@ -60,16 +60,16 @@ class AccessBDD {
      * @param string $table nom de la table
      * @param array $champs nom et valeur de chaque champs de recherche
      * @return lignes répondant aux critères de recherches
-     */	
+     */
     public function select($table, $champs){
         if($this->conn != null && $champs != null){
             switch($table){
                 case "exemplaire" :
                     return $this->selectExemplairesRevue($champs['id']);
-                default:                    
+                default:
                     // cas d'un select sur une table avec recherche sur des champs
-                    return $this->selectTableOnConditons($table, $champs);					
-            }				
+                    return $this->selectTableOnConditons($table, $champs);
+            }
         }else{
                 return null;
         }
@@ -81,8 +81,8 @@ class AccessBDD {
      * @return lignes triées sur lebelle
      */
     public function selectTableSimple($table){
-        $req = "select * from $table order by libelle;";		
-        return $this->conn->query($req);	    
+        $req = "select * from $table order by libelle;";
+        return $this->conn->query($req);
     }
     
     /**
@@ -91,8 +91,8 @@ class AccessBDD {
      * @return toutes les lignes de la table
      */
     public function selectTable($table){
-        $req = "select * from $table;";		
-        return $this->conn->query($req);        
+        $req = "select * from $table;";
+        return $this->conn->query($req);
     }
     
     /**
@@ -108,8 +108,8 @@ class AccessBDD {
             $requete .= "$key=:$key and";
         }
         // (enlève le dernier and)
-        $requete = substr($requete, 0, strlen($requete)-3);								
-        return $this->conn->query($requete, $champs);		
+        $requete = substr($requete, 0, strlen($requete)-3);
+        return $this->conn->query($requete, $champs);
     }
 
     /**
@@ -123,9 +123,9 @@ class AccessBDD {
         $req .= "join genre g on g.id=d.idGenre ";
         $req .= "join public p on p.id=d.idPublic ";
         $req .= "join rayon r on r.id=d.idRayon ";
-        $req .= "order by titre ";		
+        $req .= "order by titre ";
         return $this->conn->query($req);
-    }	
+    }
 
     /**
      * récupération de toutes les lignes de la table DVD et les tables associées
@@ -138,9 +138,9 @@ class AccessBDD {
         $req .= "join genre g on g.id=d.idGenre ";
         $req .= "join public p on p.id=d.idPublic ";
         $req .= "join rayon r on r.id=d.idRayon ";
-        $req .= "order by titre ";	
+        $req .= "order by titre ";
         return $this->conn->query($req);
-    }	
+    }
 
     /**
      * récupération de toutes les lignes de la table Revue et les tables associées
@@ -155,7 +155,7 @@ class AccessBDD {
         $req .= "join rayon r on r.id=d.idRayon ";
         $req .= "order by titre ";
         return $this->conn->query($req);
-    }	
+    }
 
     /**
      * récupération de tous les exemplaires d'une revue
@@ -169,9 +169,9 @@ class AccessBDD {
         $req = "Select e.id, e.numero, e.dateAchat, e.photo, e.idEtat ";
         $req .= "from exemplaire e join document d on e.id=d.id ";
         $req .= "where e.id = :id ";
-        $req .= "order by e.dateAchat DESC";		
+        $req .= "order by e.dateAchat DESC";
         return $this->conn->query($req, $param);
-    }		
+    }
 
     /**
      * suppresion d'une ou plusieurs lignes dans une table
@@ -187,8 +187,8 @@ class AccessBDD {
                 $requete .= "$key=:$key and ";
             }
             // (enlève le dernier and)
-            $requete = substr($requete, 0, strlen($requete)-5);   
-            return $this->conn->execute($requete, $champs);		
+            $requete = substr($requete, 0, strlen($requete)-5);
+            return $this->conn->execute($requete, $champs);
         }else{
             return null;
         }
@@ -216,7 +216,7 @@ class AccessBDD {
             // (enlève la dernière virgule)
             $requete = substr($requete, 0, strlen($requete)-1);
             $requete .= ");";	
-            return $this->conn->execute($requete, $champs);		
+            return $this->conn->execute($requete, $champs);
         }else{
             return null;
         }
@@ -237,10 +237,10 @@ class AccessBDD {
                 $requete .= "$key=:$key,";
             }
             // (enlève la dernière virgule)
-            $requete = substr($requete, 0, strlen($requete)-1);				
+            $requete = substr($requete, 0, strlen($requete)-1);
             $champs["id"] = $id;
-            $requete .= " where id=:id;";				
-            return $this->conn->execute($requete, $champs);		
+            $requete .= " where id=:id;";
+            return $this->conn->execute($requete, $champs);
         }else{
             return null;
         }
