@@ -27,11 +27,11 @@ $controle = new Controle();
     // traitement suivant le verbe HTTP utilisé
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $controle->get($table, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
         $controle->post($table, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'PUT'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'PUT'){
         $controle->put($table, $id, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'DELETE'){
         $controle->delete($table, $champs);
     }
 

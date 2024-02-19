@@ -5,8 +5,10 @@ include_once("AccessBDD.php");
  * Contrôleur : reçoit et traite les demandes du point d'entrée
  */
 class Controle{
-	
+    
     private $accessBDD;
+
+    const INVALID_REQUEST = "requete invalide";
 
     /**
      * Constructeur : récupération de l'instance d'accès à la BDD
@@ -47,9 +49,9 @@ class Controle{
         }else{
             $result = $this->accessBDD->select($table, $champs);
         }
-        if (gettype($result) != "array" && ($result == false || $result == null)){
-            $this->reponse(400, "requete invalide");
-        }else{	
+        if (gettype($result) != "array" && !$result){
+            $this->reponse(400, self::INVALID_REQUEST);
+        }else{
             $this->reponse(200, "OK", $result);
         }
     }
@@ -61,9 +63,9 @@ class Controle{
      */
     public function delete($table, $champs){
         $result = $this->accessBDD->delete($table, $champs);
-        if ($result == null || $result == false){
-            $this->reponse(400, "requete invalide");
-        }else{	
+        if (!$result){
+            $this->reponse(400, self::INVALID_REQUEST);
+        }else{
             $this->reponse(200, "OK");
         }
     }
@@ -75,9 +77,9 @@ class Controle{
      */
     public function post($table, $champs){
         $result = $this->accessBDD->insertOne($table, $champs);
-        if ($result == null || $result == false){
-            $this->reponse(400, "requete invalide");
-        }else{	
+        if (!$result){
+            $this->reponse(400, self::INVALID_REQUEST);
+        }else{
             $this->reponse(200, "OK");
         }
     }
@@ -90,13 +92,13 @@ class Controle{
      */
     public function put($table, $id, $champs){
         $result = $this->accessBDD->updateOne($table, $id, $champs);
-        if ($result == null || $result == false){
-            $this->reponse(400, "requete invalide");
-        }else{	
+        if (!$result){
+            $this->reponse(400, self::INVALID_REQUEST);
+        }else{
             $this->reponse(200, "OK");
         }
     }
-	
+    
     /**
      * login et/ou pwd incorrects
      */

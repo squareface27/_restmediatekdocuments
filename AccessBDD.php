@@ -5,7 +5,7 @@ include_once("ConnexionPDO.php");
  * Classe de construction des requêtes SQL à envoyer à la BDD
  */
 class AccessBDD {
-	
+    
     public $login="marjorie1";
     public $mdp="mediatekdocuments";
     public $bd="mediatekdocuments";
@@ -178,7 +178,7 @@ class AccessBDD {
      * @param string $table nom de la table
      * @param array $champs nom et valeur de chaque champs
      * @return true si la suppression a fonctionné
-     */	
+     */
     public function delete($table, $champs){
         if($this->conn != null){
             // construction de la requête
@@ -199,7 +199,7 @@ class AccessBDD {
      * @param string $table nom de la table
      * @param array $champs nom et valeur de chaque champs de la ligne
      * @return true si l'ajout a fonctionné
-     */	
+     */
     public function insertOne($table, $champs){
         if($this->conn != null && $champs != null){
             // construction de la requête
@@ -215,7 +215,7 @@ class AccessBDD {
             }
             // (enlève la dernière virgule)
             $requete = substr($requete, 0, strlen($requete)-1);
-            $requete .= ");";	
+            $requete .= ");";
             return $this->conn->execute($requete, $champs);
         }else{
             return null;
@@ -228,7 +228,7 @@ class AccessBDD {
      * @param string $id id de la ligne à modifier
      * @param array $param nom et valeur de chaque champs de la ligne
      * @return true si la modification a fonctionné
-     */	
+     */
     public function updateOne($table, $id, $champs){
         if($this->conn != null && $champs != null){
             // construction de la requête

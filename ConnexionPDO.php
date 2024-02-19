@@ -62,10 +62,10 @@ class ConnexionPDO {
                 return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
             }else{
                 return false;
-            } 
+            }
         }catch(Exception $e){
             return null;
         }
     }
-	
+    
 }
