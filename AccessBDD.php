@@ -38,8 +38,6 @@ class AccessBDD {
                     return $this->selectAllDvd();
                 case "revue" :
                     return $this->selectAllRevues();
-                case "exemplaire" :
-                    return $this->selectExemplairesRevue();
                 case "genre" :
                 case "public" :
                 case "rayon" :
