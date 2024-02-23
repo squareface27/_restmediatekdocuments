@@ -64,6 +64,8 @@ class AccessBDD {
             switch($table){
                 case "exemplaire" :
                     return $this->selectExemplairesRevue($champs['id']);
+                case "commandedocument" :
+                    return $this->selectCommandeDocument($champs['id']);
                 default:
                     // cas d'un select sur une table avec recherche sur des champs
                     return $this->selectTableOnConditons($table, $champs);
@@ -111,19 +113,20 @@ class AccessBDD {
     }
 
     /**
-     * récupération de toutes les lignes de la table Livre et les tables associées
-     * @return lignes de la requete
+     * Retrieve all rows from the Livre table and associated tables
+     * @return query rows
      */
     public function selectAllLivres(){
-        $req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, ";
+        $req = "SELECT l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, ";
         $req .= "d.idrayon, d.idpublic, d.idgenre, g.libelle as genre, p.libelle as lePublic, r.libelle as rayon ";
-        $req .= "from livre l join document d on l.id=d.id ";
-        $req .= "join genre g on g.id=d.idGenre ";
-        $req .= "join public p on p.id=d.idPublic ";
-        $req .= "join rayon r on r.id=d.idRayon ";
-        $req .= "order by titre ";
+        $req .= "FROM livre l JOIN document d ON l.id=d.id ";
+        $req .= "JOIN genre g ON g.id=d.idGenre ";
+        $req .= "JOIN public p ON p.id=d.idPublic ";
+        $req .= "JOIN rayon r ON r.id=d.idRayon ";
+        $req .= "ORDER BY titre ";
         return $this->conn->query($req);
     }
+
 
     /**
      * récupération de toutes les lignes de la table DVD et les tables associées
@@ -169,6 +172,24 @@ class AccessBDD {
         $req .= "where e.id = :id ";
         $req .= "order by e.dateAchat DESC";
         return $this->conn->query($req, $param);
+    }
+
+    /**
+     * Récupération des commandes d'un document
+     * @param string $id
+     * @return query rows
+     */
+    public function selectCommandeDocument($id){
+        $params = array (
+            "id" => $id
+        );
+        $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi,  ";
+        $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant  ";
+        $query .= "FROM commande c JOIN commandedocument cd ON c.id = cd.id ";
+        $query .= "JOIN suivi s ON cd.idSuivi = s.id ";
+        $query .= "WHERE cd.idLivreDvd = :id ";
+        $query .= "ORDER BY dateCommande DESC";
+        return $this->conn->query($query, $params);
     }
 
     /**
