@@ -4,7 +4,7 @@ include_once("Controle.php");
 $controle = new Controle();
 
 // Contrôle de l'authentification
-if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) && 
+if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) &&
         !(($_SERVER['PHP_AUTH_USER']=='admin' && ($_SERVER['PHP_AUTH_PW']=='adminpwd'))))){
     $controle->unauthorized();
     
@@ -27,11 +27,11 @@ if(!isset($_SERVER['PHP_AUTH_USER']) || (isset($_SERVER['PHP_AUTH_USER']) &&
     // traitement suivant le verbe HTTP utilisé
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $controle->get($table, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
         $controle->post($table, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'PUT'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'PUT'){
         $controle->put($table, $id, $champs);
-    }else if($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+    }elseif($_SERVER['REQUEST_METHOD'] === 'DELETE'){
         $controle->delete($table, $champs);
     }
 
