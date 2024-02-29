@@ -80,7 +80,9 @@ class Controle{
         if (!$result){
             $this->reponse(400, self::INVALID_REQUEST);
         }else{
-            $this->reponse(200, "OK");
+            if ($table=="commandedocument"){
+                $result = $this->accessBDD->insertCommandeDocument($champs);
+            }
         }
     }
 

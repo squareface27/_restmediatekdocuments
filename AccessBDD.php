@@ -65,7 +65,7 @@ class AccessBDD {
                 case "exemplaire" :
                     return $this->selectExemplairesRevue($champs['id']);
                 case "commandedocument" :
-                    return $this->selectCommandeDocument($champs['id']);
+                    return $this->selectCommandeDocument($champs);
                 default:
                     // cas d'un select sur une table avec recherche sur des champs
                     return $this->selectTableOnConditons($table, $champs);
@@ -264,5 +264,32 @@ class AccessBDD {
             return null;
         }
     }
+
+    /**
+     * Ajout d'une commande d'un document dans la base de données
+     */
+    public function insertCommandeDocument($champs){
+        $commande = [
+            "id" => $champs["Id"],
+            "dateCommande" => $champs["dateCommande"],
+            "montant" => $champs["Montant"]
+        ];
+        $resultCommande = $this->conn->insertOne("commande", $commande);
+
+        if ($resultCommande) {
+            $commandedocument = [
+                "id" => $champs["Id"],
+                "nbExemplaire" => $champs["nbExemplaire"],
+                "idSuivi" => $champs["idSuivi"],
+                "idLivreDvd" => $champs["idLivreDvd"]
+            ];
+            $resultCommandedocument = $this->conn->insertOne("commandedocument", $commandedocument);
+
+            return $resultCommandedocument;
+        } else {
+            $this->reponse(400, "Impossible d'ajouter une commande");
+        }
+    }
+
 
 }
