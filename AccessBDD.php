@@ -86,16 +86,6 @@ class AccessBDD {
     }
     
     /**
-     * récupération de toutes les lignes d'une table
-     * @param string $table
-     * @return toutes les lignes de la table
-     */
-    public function selectTable($table){
-        $req = "select * from $table;";
-        return $this->conn->query($req);
-    }
-    
-    /**
      * récupération des lignes d'une table dont les champs concernés correspondent aux valeurs
      * @param type $table
      * @param type $champs
@@ -183,8 +173,9 @@ class AccessBDD {
         $params = array (
             "id" => $id
         );
-        $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi,  ";
-        $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant  ";
+        $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi, ";
+        $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant, ";
+        $query .= "(SELECT COUNT(*) FROM commandedocument WHERE idLivreDvd = :id) AS nombreCommande ";
         $query .= "FROM commande c JOIN commandedocument cd ON c.id = cd.id ";
         $query .= "JOIN suivi s ON cd.idSuivi = s.id ";
         $query .= "WHERE cd.idLivreDvd = :id ";
