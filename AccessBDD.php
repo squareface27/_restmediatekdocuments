@@ -84,6 +84,16 @@ class AccessBDD {
         $req = "select * from $table order by libelle;";
         return $this->conn->query($req);
     }
+
+    /**
+     * récupération de toutes les lignes d'une table
+     * @param string $table
+     * @return toutes les lignes de la table
+     */
+    public function selectTable($table){
+        $req = "select * from $table;";
+        return $this->conn->query($req);
+    }
     
     /**
      * récupération des lignes d'une table dont les champs concernés correspondent aux valeurs
