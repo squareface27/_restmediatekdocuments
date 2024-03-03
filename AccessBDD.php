@@ -38,6 +38,8 @@ class AccessBDD {
                     return $this->selectAllDvd();
                 case "revue" :
                     return $this->selectAllRevues();
+                case "maxcommande" :
+                    return $this->selectMaxCommande();
                 case "genre" :
                 case "public" :
                 case "rayon" :
@@ -113,6 +115,14 @@ class AccessBDD {
     }
 
     /**
+     * récupère le nombre maximal de commande
+     */
+    public function selectMaxCommande(){
+        $req = "SELECT MAX(id) FROM commande;";
+        return $this->conn->query($req);
+    }
+
+    /**
      * Retrieve all rows from the Livre table and associated tables
      * @return query rows
      */
@@ -185,7 +195,6 @@ class AccessBDD {
         );
         $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi, ";
         $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant, ";
-        $query .= "(SELECT COUNT(*) FROM commandedocument WHERE idLivreDvd = :id) AS nombreCommande ";
         $query .= "FROM commande c JOIN commandedocument cd ON c.id = cd.id ";
         $query .= "JOIN suivi s ON cd.idSuivi = s.id ";
         $query .= "WHERE cd.idLivreDvd = :id ";
