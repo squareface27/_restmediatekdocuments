@@ -193,8 +193,8 @@ class AccessBDD {
         $params = array (
             "id" => $id
         );
-        $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi, ";
-        $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant, ";
+        $query = "SELECT c.id, cd.nbExemplaire AS nombreExemplaire, s.id AS idSuivi,  ";
+        $query .= "s.libelle AS libelleSuivi, cd.idLivreDvd, c.dateCommande, c.montant  ";
         $query .= "FROM commande c JOIN commandedocument cd ON c.id = cd.id ";
         $query .= "JOIN suivi s ON cd.idSuivi = s.id ";
         $query .= "WHERE cd.idLivreDvd = :id ";
