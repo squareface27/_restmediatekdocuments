@@ -281,20 +281,19 @@ class AccessBDD {
     public function insertCommandeDocument($champs){
         $commande = [
             "id" => $champs["Id"],
-            "dateCommande" => $champs["dateCommande"],
+            "dateCommande" => $champs["DateCommande"],
             "montant" => $champs["Montant"]
         ];
-        $resultCommande = $this->conn->insertOne("commande", $commande);
+        $resultCommande = $this->insertOne("commande", $commande);
 
         if ($resultCommande) {
             $commandedocument = [
                 "id" => $champs["Id"],
-                "nbExemplaire" => $champs["nbExemplaire"],
-                "idSuivi" => $champs["idSuivi"],
-                "idLivreDvd" => $champs["idLivreDvd"]
+                "nbExemplaire" => $champs["NombreExemplaire"],
+                "idSuivi" => $champs["LeSuivi"]["Id"],
+                "idLivreDvd" => $champs["IdLivreDvd"]
             ];
-            $resultCommandedocument = $this->conn->insertOne("commandedocument", $commandedocument);
-
+            $resultCommandedocument = $this->insertOne("commandedocument", $commandedocument);
             return $resultCommandedocument;
         } else {
             $this->reponse(400, "Impossible d'ajouter une commande");
