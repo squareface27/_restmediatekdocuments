@@ -5,7 +5,7 @@ include_once("ConnexionPDO.php");
  * Classe de construction des requêtes SQL à envoyer à la BDD
  */
 class AccessBDD {
-    
+
     public $login="marjorie1";
     public $mdp="mediatekdocuments";
     public $bd="mediatekdocuments";
@@ -73,7 +73,7 @@ class AccessBDD {
                     return $this->selectTableOnConditons($table, $champs);
             }
         }else{
-                return null;
+            return null;
         }
     }
 
@@ -96,7 +96,7 @@ class AccessBDD {
         $req = "select * from $table;";
         return $this->conn->query($req);
     }
-    
+
     /**
      * récupération des lignes d'une table dont les champs concernés correspondent aux valeurs
      * @param type $table
@@ -118,7 +118,7 @@ class AccessBDD {
      * récupère le nombre maximal de commande
      */
     public function selectMaxCommande(){
-        $req = "SELECT MAX(id) FROM commande;";
+        $req = "SELECT MAX(CAST(id AS UNSIGNED)) FROM commande;";
         return $this->conn->query($req);
     }
 
@@ -175,7 +175,7 @@ class AccessBDD {
      */
     public function selectExemplairesRevue($id){
         $param = array(
-                "id" => $id
+            "id" => $id
         );
         $req = "Select e.id, e.numero, e.dateAchat, e.photo, e.idEtat ";
         $req .= "from exemplaire e join document d on e.id=d.id ";
