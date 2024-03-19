@@ -252,23 +252,24 @@ class AccessBDD {
     }
 
     /**
-     * modification d'une ligne dans une table
+     * Modification d'une ligne dans une table.
      * @param string $table nom de la table
-     * @param string $id id de la ligne à modifier
-     * @param array $param nom et valeur de chaque champs de la ligne
+     * @param array $champs nom et valeur de chaque champ de la ligne, incluant l'identifiant unique de la ligne.
      * @return true si la modification a fonctionné
      */
-    public function updateOne($table, $id, $champs){
-        if($this->conn != null && $champs != null){
-            // construction de la requête
-            $requete = "update $table set ";
-            foreach ($champs as $key => $value){
-                $requete .= "$key=:$key,";
+    public function updateOne($table, $champs){
+        if($this->conn != null && !empty($champs)){
+            if(!isset($champs['id'])){
+                return false;
             }
-            // (enlève la dernière virgule)
-            $requete = substr($requete, 0, strlen($requete)-1);
-            $champs["id"] = $id;
-            $requete .= " where id=:id;";
+            $requete = "UPDATE $table SET ";
+            foreach ($champs as $key => $value) {
+                if ($key !== 'id') {
+                    $requete .= "$key=:$key,";
+                }
+            }
+            $requete = rtrim($requete, ',');
+            $requete .= " WHERE id=:id;";
             return $this->conn->execute($requete, $champs);
         }else{
             return null;
@@ -294,6 +295,31 @@ class AccessBDD {
                 "idLivreDvd" => $champs["IdLivreDvd"]
             ];
             $resultCommandedocument = $this->insertOne("commandedocument", $commandedocument);
+            return $resultCommandedocument;
+        } else {
+            $this->reponse(400, "Impossible d'ajouter une commande");
+        }
+    }
+
+    /**
+     * Update d'une commande d'un document dans la base de données
+     */
+    public function updateCommandeDocument($champs){
+        $commande = [
+            "id" => $champs["Id"],
+            "dateCommande" => $champs["DateCommande"],
+            "montant" => $champs["Montant"]
+        ];
+        $resultCommande = $this->UpdateOne("commande", $commande);
+
+        if ($resultCommande) {
+            $commandedocument = [
+                "id" => $champs["Id"],
+                "nbExemplaire" => $champs["NombreExemplaire"],
+                "idSuivi" => $champs["LeSuivi"]["Id"],
+                "idLivreDvd" => $champs["IdLivreDvd"]
+            ];
+            $resultCommandedocument = $this->UpdateOne("commandedocument", $commandedocument);
             return $resultCommandedocument;
         } else {
             $this->reponse(400, "Impossible d'ajouter une commande");

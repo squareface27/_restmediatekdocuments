@@ -96,7 +96,9 @@ class Controle{
      * @param array $champs nom et valeur des champs
      */
     public function put($table, $id, $champs){
-        $result = $this->accessBDD->updateOne($table, $id, $champs);
+        if ($table == 'commandedocument') {
+            $result = $this->accessBDD->updateCommandeDocument($champs);
+        }
         if (!$result){
             $this->reponse(400, self::INVALID_REQUEST);
         }else{
