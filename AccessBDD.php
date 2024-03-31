@@ -326,5 +326,30 @@ class AccessBDD {
         }
     }
 
+    /**
+     * Suppression d'une commande d'un document dans la base de données
+     */
+    public function deleteCommandeDocument($champs){
+
+        $commandedocument = [
+            "id" => $champs["Id"],
+            "nbExemplaire" => $champs["NombreExemplaire"],
+            "idSuivi" => $champs["LeSuivi"]["Id"],
+            "idLivreDvd" => $champs["IdLivreDvd"]
+        ];
+        $resultCommande = $this->delete("commandedocument", $commandedocument);
+
+        if ($resultCommande) {
+            $commande = [
+                "id" => $champs["Id"],
+                "dateCommande" => $champs["DateCommande"],
+                "montant" => $champs["Montant"]
+            ];
+            $resultCommandedocument = $this->delete("commande", $commande);
+            return $resultCommandedocument;
+        } else {
+            $this->reponse(400, "Impossible de supprimer une commande");
+        }
+    }
 
 }

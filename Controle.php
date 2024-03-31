@@ -62,10 +62,15 @@ class Controle{
      * @param array $champs nom et valeur des champs
      */
     public function delete($table, $champs){
-        $result = $this->accessBDD->delete($table, $champs);
-        if (!$result){
-            $this->reponse(400, self::INVALID_REQUEST);
-        }else{
+        if ($table == 'commandedocument') {
+            $result = $this->accessBDD->deleteCommandeDocument($champs);
+        } else {
+            $result = $this->accessBDD->delete($table, $champs);
+        }
+
+        if ($result == null || $result == false) {
+            $this->reponse(400, "requete invalide");
+        } else {
             $this->reponse(200, "OK");
         }
     }
