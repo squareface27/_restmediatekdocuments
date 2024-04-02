@@ -38,8 +38,6 @@ class AccessBDD {
                     return $this->selectAllDvd();
                 case "revue" :
                     return $this->selectAllRevues();
-                case "utilisateur" :
-                    return $this->selectAllUtilisateurs();
                 case "maxcommande" :
                     return $this->selectMaxCommande();
                 case "genre" :
@@ -70,6 +68,8 @@ class AccessBDD {
                     return $this->selectExemplairesRevue($champs['id']);
                 case "commandedocument" :
                     return $this->selectCommandeDocument($champs['id']);
+                case "utilisateur" :
+                    return $this->selectUtilisateurs($champs);
                 default:
                     // cas d'un select sur une table avec recherche sur des champs
                     return $this->selectTableOnConditons($table, $champs);
@@ -171,13 +171,23 @@ class AccessBDD {
     }
 
     /**
-     * récupération de toutes les lignes de la table Utilisateur
-     * @return lignes de la requete
+     * Récupération de toutes les lignes de la table Utilisateur
+     * @param array $champs
+     * @return array lignes de la requête
      */
-    public function selectAllUtilisateurs(){
-        $req = "select * from utilisateur;";
-        return $this->conn->query($req);
+    public function selectUtilisateurs($champs) {
+        $param = array(
+            "username" => $champs["username"],
+            "password" => $champs["password"]
+        );
+        $req = "select * from utilisateur where username = :username and password = :password";
+        $resultats = $this->conn->query($req, $param);
+        if (empty($resultats)) {
+            return ["code" => 404, "message" => "Utilisateur non trouvé"];
+        }
+        return $resultats;
     }
+
 
     /**
      * récupération de tous les exemplaires d'une revue
