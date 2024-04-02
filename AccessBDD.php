@@ -38,6 +38,8 @@ class AccessBDD {
                     return $this->selectAllDvd();
                 case "revue" :
                     return $this->selectAllRevues();
+                case "utilisateur" :
+                    return $this->selectAllUtilisateurs();
                 case "maxcommande" :
                     return $this->selectMaxCommande();
                 case "genre" :
@@ -169,6 +171,15 @@ class AccessBDD {
     }
 
     /**
+     * récupération de toutes les lignes de la table Utilisateur
+     * @return lignes de la requete
+     */
+    public function selectAllUtilisateurs(){
+        $req = "select * from utilisateur;";
+        return $this->conn->query($req);
+    }
+
+    /**
      * récupération de tous les exemplaires d'une revue
      * @param string $id id de la revue
      * @return lignes de la requete
@@ -185,7 +196,7 @@ class AccessBDD {
     }
 
     /**
-     * Récupération des commandes d'un document
+     * Récupération des commandes d'un documentdvd
      * @param string $id
      * @return query rows
      */
