@@ -181,11 +181,7 @@ class AccessBDD {
             "password" => $champs["password"]
         );
         $req = "select * from utilisateur where username = :username and password = :password";
-        $resultats = $this->conn->query($req, $param);
-        if (empty($resultats)) {
-            return ["code" => 404, "message" => "Utilisateur non trouvé"];
-        }
-        return $resultats;
+        return $this->conn->query($req, $param);
     }
 
 
